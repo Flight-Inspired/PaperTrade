@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Portfolio
+{% endblock %}
+
+{% block main %}
+<h2>Portfolio</h2>
+
+<table class="table table-hover portfolio-table">
+    <thead class="thead-light">
+        <tr>
+            <th>Symbol</th>
+            <th>Name</th>
+            <th>Shares</th>
+            <th>Price</th>
+            <th>Total Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in portfolio_data %}
+        <tr>
+            <td>{{ item["symbol"] }}</td>
+            {% set stock_info = lookup(item["symbol"]) %}
+            {% if stock_info %}
+            <td>{{ stock_info["name"] }}</td>
+            <td>{{ item["total_shares"] }}</td>
+            <td>{{ usd(stock_info["price"]) }}</td>
+            <td>{{ usd(item["total_value"]) }}</td>
+            {% else %}
+            <td>Stock not found</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+        <tr>
+            <td>CASH</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{{ usd(cash) }}</td>
+        </tr>
+    </tbody>
+</table>
+<p>Grand Total: {{ usd(total_value) }}</p>
+
+<a href="/quote" class="btn btn-primary">Get Quote</a>
+<a href="/buy" class="btn btn-success">Buy</a>
+<a href="/sell" class="btn btn-danger">Sell</a>
+<a href="/logout" class="btn btn-warning">Log Out</a>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Stock Quote: {{ symbol }}
+{% endblock %}
+
+{% block main %}
+<h2>Stock Quote: {{ symbol }}</h2>
+<p>Name: {{ name }}</p>
+<p>Price: {{ usd(price) }}</p>
+
+<form action="/buy" method="post">
+    <div class="mb-3">
+        <label for="symbol" class="form-label">Stock Symbol</label>
+        <input type="hidden" class="form-control" id="symbol" name="symbol" value="{{ symbol }}">
+    </div>
+    <div class="mb-3">
+        <label for="shares" class="form-label">Shares</label>
+        <input type="number" class="form-control" id="shares" name="shares" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Buy</button>
+</form>
+{% endblock %}
